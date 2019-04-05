@@ -3,8 +3,11 @@
 The code repository for the 2019 CVPR paper *Biologically-Constrained Graphs for Global Connectomics Reconstruction*. The code assumes the following directories exist:
 
 affinities/
+
 meta/
+
 segmentations/
+
 skeletons/
 
 ### Meta files
