@@ -7,8 +7,8 @@ import struct
 import numpy as np
 from PIL import Image
 
-from ibex.data_structures import meta_data, skeleton_points
-from ibex.utilities.constants import *
+from bio_constrained_graphs.data_structures import meta_data, skeleton_points
+from bio_constrained_graphs.utilities.constants import *
 
 
 def GetWorldBBox(prefix):

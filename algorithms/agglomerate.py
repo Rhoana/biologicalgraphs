@@ -1,6 +1,6 @@
-from ibex.transforms import seg2seg, seg2gold
-from ibex.data_structures import UnionFind
-from ibex.utilities import dataIO
+from bio_constrained_graphs.transforms import seg2seg, seg2gold
+from bio_constrained_graphs.data_structures import UnionFind
+from bio_constrained_graphs.utilities import dataIO
 import numpy as np
 import os
 import struct

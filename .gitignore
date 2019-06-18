@@ -24,6 +24,7 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+.vscode/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -102,3 +103,12 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+algorithms/multicut.cpp
+algorithms/lifted_multicut.cpp
+evaluation/comparestacks.cpp
+transforms/seg2seg.cpp
+transforms/seg2gold.cpp
+transforms/distance.cpp
+skeletonization/generate_skeletons.cpp
+graphs/biological/node_generation.cpp

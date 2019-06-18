@@ -6,7 +6,7 @@ import numpy as np
 import ctypes
 import scipy
 
-from ibex.algorithms.util import PrintResults, ReadCandidates, CollapseGraph
+from bio_constrained_graphs.algorithms.util import PrintResults, ReadCandidates, CollapseGraph
 
 
 

@@ -4,8 +4,8 @@ import numpy as np
 import ctypes
 import scipy.sparse as sparse
     
-from ibex.utilities import dataIO
-from ibex.transforms import distance, seg2seg
+from bio_constrained_graphs.utilities import dataIO
+from bio_constrained_graphs.transforms import distance, seg2seg
 
 
 

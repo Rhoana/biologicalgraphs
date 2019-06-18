@@ -4,7 +4,7 @@ cimport numpy as np
 import numpy as np
 import ctypes
 
-from ibex.algorithms.util import PrintResults, ReadCandidates, CollapseGraph
+from bio_constrained_graphs.algorithms.util import PrintResults, ReadCandidates, CollapseGraph
 
 
 

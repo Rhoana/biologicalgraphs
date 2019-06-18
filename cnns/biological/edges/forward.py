@@ -6,10 +6,10 @@ import time
 
 from keras.models import model_from_json
 
-from ibex.utilities import dataIO
-from ibex.utilities.constants import *
-from ibex.cnns.biological.util import AugmentFeature
-from ibex.evaluation.classification import Prob2Pred, PrecisionAndRecall
+from bio_constrained_graphs.utilities import dataIO
+from bio_constrained_graphs.utilities.constants import *
+from bio_constrained_graphs.cnns.biological.util import AugmentFeature
+from bio_constrained_graphs.evaluation.classification import Prob2Pred, PrecisionAndRecall
 
 
 

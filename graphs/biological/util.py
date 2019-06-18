@@ -3,8 +3,8 @@ import numpy as np
 
 from numba import jit
 
-from ibex.utilities.constants import *
-from ibex.utilities import dataIO
+from bio_constrained_graphs.utilities.constants import *
+from bio_constrained_graphs.utilities import dataIO
 
 
 @jit(nopython=True)

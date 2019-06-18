@@ -9,7 +9,7 @@ import time
 import os
 import pandas as pd
 
-from ibex.utilities import dataIO
+from bio_constrained_graphs.utilities import dataIO
 
 
 cdef extern from 'cpp-seg2seg.h':

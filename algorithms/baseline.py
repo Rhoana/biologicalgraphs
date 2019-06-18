@@ -1,6 +1,6 @@
 import numpy as np
 
-from ibex.algorithms.util import CollapseGraph, PrintResults, ReadCandidates
+from bio_constrained_graphs.algorithms.util import CollapseGraph, PrintResults, ReadCandidates
 
 
 def GraphBaseline(prefix, segmentation, model_prefix, beta=0.95):

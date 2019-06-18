@@ -15,9 +15,9 @@ from keras.layers.advanced_activations import LeakyReLU
 from keras.optimizers import Adam, SGD
 import keras
 
-from ibex.utilities import dataIO
-from ibex.utilities.constants import *
-from ibex.cnns.biological.util import AugmentFeature
+from bio_constrained_graphs.utilities import dataIO
+from bio_constrained_graphs.utilities.constants import *
+from bio_constrained_graphs.cnns.biological.util import AugmentFeature
 
 
 # add a convolutional layer to the model

@@ -1,6 +1,6 @@
 import sys
 
-from ibex.utilities.constants import *
+from bio_constrained_graphs.utilities.constants import *
 
 
 class MetaData:

@@ -1,8 +1,13 @@
-# general functions for transforming h5 files
-from ibex.utilities.constants import *
+import math
+
+
+
 from numba import jit
 import numpy as np
-import math
+
+
+
+from bio_constrained_graphs.utilities.constants import *
 
 
 # downsample the data by (z, y, x) ratio

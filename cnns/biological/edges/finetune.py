@@ -4,10 +4,10 @@ import random
 
 import numpy as np
 
-from ibex.utilities import dataIO
-from ibex.utilities.constants import *
-from ibex.cnns.biological.util import AugmentFeature
-from ibex.cnns.biological.edges.train import EdgeNetwork, PlotLosses, WriteLogFiles
+from bio_constrained_graphs.utilities import dataIO
+from bio_constrained_graphs.utilities.constants import *
+from bio_constrained_graphs.cnns.biological.util import AugmentFeature
+from bio_constrained_graphs.cnns.biological.edges.train import EdgeNetwork, PlotLosses, WriteLogFiles
 
 
 

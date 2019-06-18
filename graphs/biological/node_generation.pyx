@@ -8,10 +8,10 @@ import struct
 import sys
 
 
-from ibex.graphs.biological.util import CreateDirectoryStructure, ExtractExample, FindSmallSegments, GenerateExamplesArray, ScaleFeature
-from ibex.graphs.biological import edge_generation
-from ibex.utilities import dataIO
-from ibex.utilities.constants import *
+from bio_constrained_graphs.graphs.biological.util import CreateDirectoryStructure, ExtractExample, FindSmallSegments, GenerateExamplesArray, ScaleFeature
+from bio_constrained_graphs.graphs.biological import edge_generation
+from bio_constrained_graphs.utilities import dataIO
+from bio_constrained_graphs.utilities.constants import *
 
 
 

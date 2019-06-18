@@ -12,8 +12,8 @@ import ctypes
 import numpy as np
 import skimage.morphology
 
-from ibex.utilities import dataIO
-from ibex.utilities.constants import *
+from bio_constrained_graphs.utilities import dataIO
+from bio_constrained_graphs.utilities.constants import *
 from medial_axis_util import PostProcess
 
 

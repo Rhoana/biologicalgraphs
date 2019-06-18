@@ -6,7 +6,7 @@ import struct
 import numpy as np
 import ctypes
 
-from ibex.utilities import dataIO
+from bio_constrained_graphs.utilities import dataIO
 
 
 

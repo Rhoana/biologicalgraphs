@@ -6,13 +6,13 @@ import time
 
 from keras.models import model_from_json
 
-from ibex.utilities import dataIO
-from ibex.utilities.constants import *
-from ibex.transforms import seg2seg, seg2gold
-from ibex.cnns.biological.util import AugmentFeature
-from ibex.evaluation.classification import Prob2Pred, PrecisionAndRecall
-from ibex.graphs.biological.util import FindSmallSegments
-from ibex.evaluation import comparestacks
+from bio_constrained_graphs.utilities import dataIO
+from bio_constrained_graphs.utilities.constants import *
+from bio_constrained_graphs.transforms import seg2seg, seg2gold
+from bio_constrained_graphs.cnns.biological.util import AugmentFeature
+from bio_constrained_graphs.evaluation.classification import Prob2Pred, PrecisionAndRecall
+from bio_constrained_graphs.graphs.biological.util import FindSmallSegments
+from bio_constrained_graphs.evaluation import comparestacks
 
 
 

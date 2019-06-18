@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-from ibex.utilities import dataIO
+from bio_constrained_graphs.utilities import dataIO
 
 
 

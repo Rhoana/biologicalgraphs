@@ -2,11 +2,11 @@ import struct
 import numpy as np
 
 
-from ibex.transforms import seg2gold, seg2seg
-from ibex.data_structures import unionfind
-from ibex.evaluation.classification import *
-from ibex.evaluation import comparestacks
-from ibex.utilities import dataIO
+from bio_constrained_graphs.transforms import seg2gold, seg2seg
+from bio_constrained_graphs.data_structures import unionfind
+from bio_constrained_graphs.evaluation.classification import *
+from bio_constrained_graphs.evaluation import comparestacks
+from bio_constrained_graphs.utilities import dataIO
 
 
 
