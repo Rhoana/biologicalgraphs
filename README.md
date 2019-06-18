@@ -10,14 +10,14 @@ This code requires the C++ Graph library from Bjoern Andres: http://www.andres.s
 
 ### Directory Structure
 
-This python package assumes a certain directory structure. Call the parent directory {PARENT_DIR}. The following subdirectories are required:
+This python package assumes a certain directory structure. Call the parent directory `{PARENT_DIR}`. The following subdirectories are required:
 
-{PARENT_DIR}/architectures
-{PARENT_DIR}/cache
-{PARENT_DIR}/features/biological
-{PARENT_DIR}/meta
-{PARENT_DIR}/segments
-{PARENT_DIR}/skeletons
+```{PARENT_DIR}/architectures```
+```{PARENT_DIR}/cache```
+```{PARENT_DIR}/features/biological```
+```{PARENT_DIR}/meta```
+```{PARENT_DIR}/segments```
+```{PARENT_DIR}/skeletons```
 
 ### Installation
 
