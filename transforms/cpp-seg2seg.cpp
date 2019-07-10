@@ -188,7 +188,7 @@ void CppForceConnectivity(long *segmentation, long grid_size[3])
 
 
 
-void CppDownsampleMapping(const char *prefix, long *segmentation, float input_resolution[3], long output_resolution[3], long input_grid_size[3], bool benchmark)
+void CppDownsampleMapping(const char *prefix, long *segmentation, float input_resolution[3], long output_resolution[3], long input_grid_size[3])
 {
     // get the number of entries 
     long input_nentries = input_grid_size[IB_Z] * input_grid_size[IB_Y] * input_grid_size[IB_X];
@@ -235,8 +235,7 @@ void CppDownsampleMapping(const char *prefix, long *segmentation, float input_re
 
     // write the downsampling information
     char downsample_filename[4096];
-    if (benchmark) sprintf(downsample_filename, "benchmarks/skeleton/%s-downsample-%03ldx%03ldx%03ld.bytes", prefix, output_resolution[IB_X], output_resolution[IB_Y], output_resolution[IB_Z]);
-    else sprintf(downsample_filename, "skeletons/%s/downsample-%03ldx%03ldx%03ld.bytes", prefix, output_resolution[IB_X], output_resolution[IB_Y], output_resolution[IB_Z]);
+    sprintf(downsample_filename, "skeletons/%s/downsample-%03ldx%03ldx%03ld.bytes", prefix, output_resolution[IB_X], output_resolution[IB_Y], output_resolution[IB_Z]);
 
     // open the output file
     FILE *dfp = fopen(downsample_filename, "wb");
@@ -244,8 +243,7 @@ void CppDownsampleMapping(const char *prefix, long *segmentation, float input_re
 
     // write the upsampling information
     char upsample_filename[4096];
-    if (benchmark) sprintf(upsample_filename, "benchmarks/skeleton/%s-upsample-%03ldx%03ldx%03ld.bytes", prefix, output_resolution[IB_X], output_resolution[IB_Y], output_resolution[IB_Z]);
-    else sprintf(upsample_filename, "skeletons/%s/upsample-%03ldx%03ldx%03ld.bytes", prefix, output_resolution[IB_X], output_resolution[IB_Y], output_resolution[IB_Z]);
+    sprintf(upsample_filename, "skeletons/%s/upsample-%03ldx%03ldx%03ld.bytes", prefix, output_resolution[IB_X], output_resolution[IB_Y], output_resolution[IB_Z]);
 
     // open the output file
     FILE *ufp = fopen(upsample_filename, "wb");

@@ -535,15 +535,14 @@ static bool IsEndpoint(long iv)
 
 
 
-void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], const char *lookup_table_directory, bool benchmark)
+void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], const char *lookup_table_directory)
 {
     // initialize all of the lookup tables
     InitializeLookupTables(lookup_table_directory);
 
     // read the topologically downsampled file
     char input_filename[4096];
-    if (benchmark) sprintf(input_filename, "benchmarks/skeleton/%s-downsample-%03ldx%03ldx%03ld.bytes", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
-    else sprintf(input_filename, "skeletons/%s/downsample-%03ldx%03ldx%03ld.bytes", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
+    sprintf(input_filename, "skeletons/%s/downsample-%03ldx%03ldx%03ld.bytes", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
 
     // open the input file
     FILE *rfp = fopen(input_filename, "rb");
@@ -556,8 +555,7 @@ void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], con
 
     // open the output filename
     char output_filename[4096];
-    if (benchmark) sprintf(output_filename, "benchmarks/skeleton/%s-thinning-%03ldx%03ldx%03ld-downsample-skeleton.pts", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
-    else sprintf(output_filename, "skeletons/%s/thinning-%03ldx%03ldx%03ld-downsample-skeleton.pts", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
+    sprintf(output_filename, "skeletons/%s/thinning-%03ldx%03ldx%03ld-downsample-skeleton.pts", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
 
     FILE *wfp = fopen(output_filename, "wb");
     if (!wfp) { fprintf(stderr, "Failed to write to %s\n", output_filename); exit(-1); }
@@ -583,12 +581,7 @@ void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], con
     row_size = grid_size[IB_X];
     PopulateOffsets();
 
-    double *running_times = new double[max_label];
-
     for (long label = 0; label < max_label; ++label) {
-        clock_t t1, t2;
-        t1 = clock();
-
         // get the number of points for this label
         long num;
         if (fread(&num, sizeof(long), 1, rfp) != 1) { fprintf(stderr, "Failed to read %s\n", input_filename); exit(-1); }
@@ -652,33 +645,12 @@ void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], con
 
         // reset global variables
         segmentation = NULL;
-
-        t2 = clock();
-
-        running_times[label] = (double)(t2 - t1) / CLOCKS_PER_SEC;
     }
 
     // close the I/O files
     fclose(rfp);
     fclose(wfp);
         
-    // save running time information
-    if (benchmark) {
-        char running_times_filename[4096];
-        sprintf(running_times_filename, "benchmarks/skeleton/running-times/skeleton-times/%s-thinning-%03ldx%03ldx%03ld.bytes", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
-
-        FILE *running_times_fp = fopen(running_times_filename, "wb");
-        if (!running_times_fp) exit(-1);
-       
-        if (fwrite(&max_label, sizeof(long), 1, running_times_fp) != 1) { fprintf(stderr, "Failed to write to %s\n", running_times_filename); }
-        if (fwrite(running_times, sizeof(double), max_label, running_times_fp) != (unsigned long) max_label) { fprintf(stderr, "Failed to write to %s\n", running_times_filename); }
-
-        fclose(running_times_fp);
-    }
-
-    delete[] running_times;
-
-
     delete[] lut_simple;
     delete[] lut_isthmus;
 }
