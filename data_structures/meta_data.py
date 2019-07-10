@@ -38,7 +38,7 @@ class MetaData:
                     self.affinity_filename = value
                 elif comment == '# gold filename':
                     self.gold_filename = value
-                elif comment == '# segment filename':
+                elif comment == '# segmentation filename':
                     self.segment_filename = value
                 elif comment == '# grid size':
                     # read the grid size in x, y, z order
@@ -94,21 +94,23 @@ class MetaData:
             fd.write('# resolution in nm\n')
             fd.write('{}x{}x{}\n'.format(self.resolution[2], self.resolution[1], self.resolution[0]))
 
-            fd.write('# affinity filename\n')
-            fd.write('{}\n'.format(self.affinity_filename))
+            if not self.affinity_filename == None:
+                fd.write('# affinity filename\n')
+                fd.write('{}\n'.format(self.affinity_filename))
 
             fd.write('# gold filename\n')
             fd.write('{}\n'.format(self.gold_filename))
 
-            fd.write('# segment filename\n')
+            fd.write('# segmentation filename\n')
             fd.write('{}\n'.format(self.segment_filename))
 
             # write the grid size in x, y, z order
             fd.write('# grid size\n')
             fd.write('{}x{}x{}\n'.format(self.grid_size[2], self.grid_size[1], self.grid_size[0]))
 
-            # write the crop in x, y, z order
-            fd.write('# train/val/test crop\n')
-            # need to call the function here so that we get the grid size if there was non in the original meta file
-            (crop_zmin, crop_zmax), (crop_ymin, crop_ymax), (crop_xmin, crop_xmax) = self.CroppingBox()
-            fd.write('{}:{}x{}:{}x{}:{}\n'.format(crop_xmin, crop_xmax, crop_ymin, crop_ymax, crop_zmin, crop_zmax))
+            if not self.crop_zmin == None:
+                # write the crop in x, y, z order
+                fd.write('# train/val/test crop\n')
+                # need to call the function here so that we get the grid size if there was non in the original meta file
+                (crop_zmin, crop_zmax), (crop_ymin, crop_ymax), (crop_xmin, crop_xmax) = self.CroppingBox()
+                fd.write('{}:{}x{}:{}x{}:{}\n'.format(crop_xmin, crop_xmax, crop_ymin, crop_ymax, crop_zmin, crop_zmax))
