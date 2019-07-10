@@ -118,5 +118,6 @@ graphs/biological/node_generation.cpp
 *~
 
 # do not include extra directories in neuronseg
+cache/*
 features/*
 skeletons/*
