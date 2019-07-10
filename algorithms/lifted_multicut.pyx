@@ -36,7 +36,10 @@ def GenerateLiftedEdges(vertex_ones, vertex_twos, edge_weights, nvertices):
 
 
 
-def LiftedMulticut(prefix, segmentation, model_prefix, beta=0.95):
+def LiftedMulticut(prefix, segmentation, model_prefix, seg2gold_mapping=None):
+    # parameter for over/under segmentation
+    beta = 0.95
+
     # get the possible candidates
     vertex_ones, vertex_twos, edge_weights = ReadCandidates(prefix, model_prefix)
 
@@ -57,10 +60,11 @@ def LiftedMulticut(prefix, segmentation, model_prefix, beta=0.95):
     maintained_edges = np.asarray(tmp_maintained_edges).astype(dtype=np.bool)
 
     # output the results
-    PrintResults(prefix, vertex_ones, vertex_twos, edge_weights, maintained_edges, 'lifted-multicut-{}'.format(100 * beta))
+    if not seg2gold_mapping is None:
+        PrintResults(prefix, vertex_ones, vertex_twos, edge_weights, maintained_edges, 'lifted-multicut-{}'.format(int(100 * beta)))
 
     # create a copy of the segmentation before collapsing
     segmentation = np.copy(segmentation)
     
     # collapse the graph and save the result
-    CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edges, 'lifted-multicut-{}'.format(int(100 * beta)))
+    CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edges, 'lifted-multicut-{}'.format(int(100 * beta)), not (seg2gold_mapping is None))

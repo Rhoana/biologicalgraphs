@@ -50,8 +50,7 @@ def PrintResults(prefix, vertex_ones, vertex_twos, edge_weights, maintained_edge
     else: assert (False)
 
     print 'Multicut Results'
-    output_filename = '{}-results/{}-{}-inference.txt'.format(output_folder, algorithm, prefix)
-    PrecisionAndRecall(np.array(labels), np.array(multicut_results), output_filename)
+    PrecisionAndRecall(np.array(labels), np.array(multicut_results))
 
 
 
@@ -75,7 +74,7 @@ def ReadCandidates(prefix, model_prefix):
 
 
 
-def CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edges, algorithm):
+def CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edges, algorithm, evaluate):
     # get the number of edges
     nedges = maintained_edges.shape[0]
 
@@ -108,39 +107,41 @@ def CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edg
     # spawn a new meta file
     dataIO.SpawnMetaFile(prefix, segmentation_filename, 'main')
 
-    # get the variation of information for this result
-    new_prefix = segment_filename.split('/')[1][:-3]
+    # evaluate if gold data exists
+    if evaluate:
+        # get the variation of information for this result
+        new_prefix = segmentation_filename.split('/')[1][:-3]
 
-    # read in the new gold data
-    gold = dataIO.ReadGoldData(prefix)
+        # read in the new gold data
+        gold = dataIO.ReadGoldData(prefix)
 
-    rand_error, vi = comparestacks.VariationOfInformation(new_prefix, segmentation, gold)
+        rand_error, vi = comparestacks.VariationOfInformation(new_prefix, segmentation, gold)
 
-    #adapted_rand = comparestacks.adapted_rand(prefix, segmentation, gold)
+        #adapted_rand = comparestacks.adapted_rand(prefix, segmentation, gold)
 
-    print 'Rand Error Full: {}'.format(rand_error[0] + rand_error[1])
-    print 'Rand Error Merge: {}'.format(rand_error[0])
-    print 'Rand Error Split: {}'.format(rand_error[1])
+        print 'Rand Error Full: {}'.format(rand_error[0] + rand_error[1])
+        print 'Rand Error Merge: {}'.format(rand_error[0])
+        print 'Rand Error Split: {}'.format(rand_error[1])
 
-    print 'Variation of Information Full: {}'.format(vi[0] + vi[1])
-    print 'Variation of Information Merge: {}'.format(vi[0])
-    print 'Variation of Information Split: {}'.format(vi[1])
+        print 'Variation of Information Full: {}'.format(vi[0] + vi[1])
+        print 'Variation of Information Merge: {}'.format(vi[0])
+        print 'Variation of Information Split: {}'.format(vi[1])
 
-    #print 'Adapted Rand: {}'.format(adapted_rand)
+        #print 'Adapted Rand: {}'.format(adapted_rand)
 
-    # make sure that the options are either multicut or lifted-multicut
-    if 'lifted-multicut' in algorithm: output_folder = 'lifted-multicut'
-    elif 'multicut' in algorithm: output_folder = 'multicut'
-    elif 'graph-baseline' in algorithm: output_folder = 'graph-baselines'
-    else: assert (False)
+        # make sure that the options are either multicut or lifted-multicut
+        if 'lifted-multicut' in algorithm: output_folder = 'lifted-multicut'
+        elif 'multicut' in algorithm: output_folder = 'multicut'
+        elif 'graph-baseline' in algorithm: output_folder = 'graph-baselines'
+        else: assert (False)
 
-    with open('{}-results/{}-{}.txt'.format(output_folder, algorithm, prefix), 'w') as fd:
-        fd.write('Rand Error Full: {}\n'.format(rand_error[0] + rand_error[1]))
-        fd.write('Rand Error Merge: {}\n'.format(rand_error[0]))
-        fd.write('Rand Error Split: {}\n'.format(rand_error[1]))
+        with open('results/{}-{}.txt'.format(output_folder, algorithm, prefix), 'w') as fd:
+            fd.write('Rand Error Full: {}\n'.format(rand_error[0] + rand_error[1]))
+            fd.write('Rand Error Merge: {}\n'.format(rand_error[0]))
+            fd.write('Rand Error Split: {}\n'.format(rand_error[1]))
 
-        fd.write('Variation of Information Full: {}\n'.format(vi[0] + vi[1]))
-        fd.write('Variation of Information Merge: {}\n'.format(vi[0]))
-        fd.write('Variation of Information Split: {}\n'.format(vi[1]))
+            fd.write('Variation of Information Full: {}\n'.format(vi[0] + vi[1]))
+            fd.write('Variation of Information Merge: {}\n'.format(vi[0]))
+            fd.write('Variation of Information Split: {}\n'.format(vi[1]))
 
-        #fd.write('Adapted Rand: {}\n'.format(adapted_rand))
+            #fd.write('Adapted Rand: {}\n'.format(adapted_rand))
