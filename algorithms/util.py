@@ -102,11 +102,11 @@ def CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edg
     # apply the mapping and save the result
     seg2seg.MapLabels(segmentation, mapping)
 
-    segment_filename = 'segments/{}-{}.h5'.format(prefix, algorithm)
-    dataIO.WriteH5File(segmentation, segment_filename, 'main')
+    segmentation_filename = 'segmentations/{}-{}.h5'.format(prefix, algorithm)
+    dataIO.WriteH5File(segmentation, segmentation_filename, 'main')
 
     # spawn a new meta file
-    dataIO.SpawnMetaFile(prefix, segment_filename, 'main')
+    dataIO.SpawnMetaFile(prefix, segmentation_filename, 'main')
 
     # get the variation of information for this result
     new_prefix = segment_filename.split('/')[1][:-3]
