@@ -116,3 +116,7 @@ graphs/biological/node_generation.cpp
 
 # remove temp files
 *~
+
+# do not include extra directories in neuronseg
+features/*
+skeletons/*
