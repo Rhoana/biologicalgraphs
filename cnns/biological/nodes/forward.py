@@ -1,10 +1,13 @@
 import os
-import numpy as np
 import sys
 import struct
-import time
+import numpy as np
+
+
 
 from keras.models import model_from_json
+
+
 
 from biologicalgraphs.utilities import dataIO
 from biologicalgraphs.utilities.constants import *
@@ -20,12 +23,7 @@ from biologicalgraphs.evaluation import comparestacks
 def NodeGenerator(examples, width):
     index = 0
 
-    start_time = time.time()
-
     while True:             
-        if index and not (index % 1000):
-            print '{}/{} in {:0.2f} seconds'.format(index, examples.shape[0], time.time() - start_time)
-            start_time = time.time()
         # prevent overflow of the queue (these examples will not go through)
         if index == examples.shape[0]: index = 0
 
@@ -132,7 +130,12 @@ def CollectLargeSmallPairs(prefix, width, radius, subset):
 
 
 
-def Forward(prefix, model_prefix, segmentation, width, radius, subset, evaluate=False, threshold_volume=10368000):
+def Forward(prefix, model_prefix, segmentation, subset, seg2gold_mapping=None, evaluate=False):
+    # optimal parameters from paper (width starts with 3 channels)
+    width = (3, 20, 60, 60)
+    radius = 400
+    threshold_volume = 10368000
+    
     # read in the trained model
     model = model_from_json(open('{}.json'.format(model_prefix), 'r').read())
     model.load_weights('{}-best-loss.h5'.format(model_prefix))
@@ -197,11 +200,9 @@ def Forward(prefix, model_prefix, segmentation, width, radius, subset, evaluate=
     max_label = np.amax(segmentation) + 1
     mapping = [iv for iv in range(max_label)]
 
-    # look at seg2gold to see how many correct segments are merged
-    seg2gold_mapping = seg2gold.Mapping(prefix)
-    
-    ncorrect_merges = 0
-    nincorrect_merges = 0
+    if not seg2gold_mapping is None:
+        ncorrect_merges = 0
+        nincorrect_merges = 0
 
     # go through all of the small segments
     for small_segment in small_segments:
@@ -222,21 +223,23 @@ def Forward(prefix, model_prefix, segmentation, width, radius, subset, evaluate=
         else:
             mapping[small_segment] = best_large_segment
 
-        # don't consider undetermined locations
-        if seg2gold_mapping[small_segment] < 1 or seg2gold_mapping[best_large_segment] < 1: continue
+        if not seg2gold_mapping is None:
+            # don't consider undetermined locations
+            if seg2gold_mapping[small_segment] < 1 or seg2gold_mapping[best_large_segment] < 1: continue
 
-        if seg2gold_mapping[small_segment] == seg2gold_mapping[best_large_segment]: ncorrect_merges += 1
-        else: nincorrect_merges += 1
+            if seg2gold_mapping[small_segment] == seg2gold_mapping[best_large_segment]: ncorrect_merges += 1
+            else: nincorrect_merges += 1
 
-    print '\nResults:'
-    print '  Correctly Merged: {}'.format(ncorrect_merges)
-    print '  Incorrectly Merged: {}'.format(nincorrect_merges)
-    
-    with open(output_filename, 'a') as fd:
-        fd.write('\nResults:\n')
-        fd.write('  Correctly Merged: {}\n'.format(ncorrect_merges))
-        fd.write('  Incorrectly Merged: {}\n'.format(nincorrect_merges))
-    
+    if not seg2gold_mapping is None:
+        print '\nResults:'
+        print '  Correctly Merged: {}'.format(ncorrect_merges)
+        print '  Incorrectly Merged: {}'.format(nincorrect_merges)
+        
+        with open(output_filename, 'a') as fd:
+            fd.write('\nResults:\n')
+            fd.write('  Correctly Merged: {}\n'.format(ncorrect_merges))
+            fd.write('  Incorrectly Merged: {}\n'.format(nincorrect_merges))
+        
     # save the node mapping in the cache for later
     end2end_mapping = [mapping[iv] for iv in range(max_label)]
 
@@ -253,11 +256,11 @@ def Forward(prefix, model_prefix, segmentation, width, radius, subset, evaluate=
     
     # get the model name (first component is architecture and third is node-)
     model_name = model_prefix.split('/')[1]
-    output_filename = 'segments/{}-reduced-{}.h5'.format(prefix, model_name)
-    dataIO.WriteH5File(segmentation, output_filename, 'main')
+    segmentation_filename = 'segmentations/{}-reduced-{}.h5'.format(prefix, model_name)
+    dataIO.WriteH5File(segmentation, segmentation_filename, 'main')
 
     # spawn a new meta file
-    dataIO.SpawnMetaFile(prefix, output_filename, 'main')
+    dataIO.SpawnMetaFile(prefix, segmentation_filename, 'main')
     
     # save the end to end mapping in the cache
     mapping_filename = 'cache/{}-reduced-{}-end2end.map'.format(prefix, model_name)
@@ -269,11 +272,13 @@ def Forward(prefix, model_prefix, segmentation, width, radius, subset, evaluate=
     if evaluate:
         gold = dataIO.ReadGoldData(prefix)
 
+        new_prefix = segmentation_filename.split('/')[-1].split('.')[0]
+
         # run the evaluation framework
         rand_error, vi = comparestacks.VariationOfInformation(segmentation, gold)
 
         # write the output file
-        with open('node-results/{}-reduced-{}.txt'.format(prefix, model_name), 'w') as fd:
+        with open('results/{}-reduced-{}.txt'.format(prefix, model_name), 'w') as fd:
             fd.write('Rand Error Full: {}\n'.format(rand_error[0] + rand_error[1]))
             fd.write('Rand Error Merge: {}\n'.format(rand_error[0]))
             fd.write('Rand Error Split: {}\n'.format(rand_error[1]))
