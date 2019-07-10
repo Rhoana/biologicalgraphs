@@ -2,11 +2,11 @@ import struct
 import numpy as np
 
 
-from bio_constrained_graphs.transforms import seg2gold, seg2seg
-from bio_constrained_graphs.data_structures import unionfind
-from bio_constrained_graphs.evaluation.classification import *
-from bio_constrained_graphs.evaluation import comparestacks
-from bio_constrained_graphs.utilities import dataIO
+from biologicalgraphs.transforms import seg2gold, seg2seg
+from biologicalgraphs.data_structures import unionfind
+from biologicalgraphs.evaluation.classification import *
+from biologicalgraphs.evaluation import comparestacks
+from biologicalgraphs.utilities import dataIO
 
 
 

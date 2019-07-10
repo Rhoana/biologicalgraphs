@@ -16,9 +16,9 @@ from keras.layers.advanced_activations import LeakyReLU, ELU
 from keras.optimizers import Adam, SGD
 import keras
 
-from bio_constrained_graphs.utilities import dataIO
-from bio_constrained_graphs.utilities.constants import *
-from bio_constrained_graphs.cnns.biological.util import AugmentFeature
+from biologicalgraphs.utilities import dataIO
+from biologicalgraphs.utilities.constants import *
+from biologicalgraphs.cnns.biological.util import AugmentFeature
 
 
 # add a convolutional layer to the model

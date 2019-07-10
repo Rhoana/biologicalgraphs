@@ -3,8 +3,8 @@ import numpy as np
 
 from numba import jit
 
-from bio_constrained_graphs.utilities.constants import *
-from bio_constrained_graphs.utilities import dataIO
+from biologicalgraphs.utilities.constants import *
+from biologicalgraphs.utilities import dataIO
 
 
 @jit(nopython=True)

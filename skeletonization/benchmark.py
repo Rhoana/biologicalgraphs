@@ -4,8 +4,8 @@ import struct
 import scipy.spatial, scipy.optimize
 import numpy as np
 
-from bio_constrained_graphs.utilities import dataIO
-from bio_constrained_graphs.utilities.constants import *
+from biologicalgraphs.utilities import dataIO
+from biologicalgraphs.utilities.constants import *
 
 
 

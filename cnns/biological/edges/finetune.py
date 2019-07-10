@@ -4,10 +4,10 @@ import random
 
 import numpy as np
 
-from bio_constrained_graphs.utilities import dataIO
-from bio_constrained_graphs.utilities.constants import *
-from bio_constrained_graphs.cnns.biological.util import AugmentFeature
-from bio_constrained_graphs.cnns.biological.edges.train import EdgeNetwork, PlotLosses, WriteLogFiles
+from biologicalgraphs.utilities import dataIO
+from biologicalgraphs.utilities.constants import *
+from biologicalgraphs.cnns.biological.util import AugmentFeature
+from biologicalgraphs.cnns.biological.edges.train import EdgeNetwork, PlotLosses, WriteLogFiles
 
 
 

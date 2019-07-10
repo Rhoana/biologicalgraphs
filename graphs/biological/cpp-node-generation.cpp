@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <unordered_set>
 #include <unordered_map>
 
 
@@ -198,4 +199,17 @@ void CppFindMeanAffinities(long *segmentation, float *affinities, long grid_size
 float CppGetMeanAffinity(long label_one, long label_two)
 {
   return mean_affinities[label_one * max_label + label_two];
+}
+
+
+
+long *CppRemoveSingletons(long *segmentation, long grid_size[3], float threshold) 
+{
+    // set global variables
+    nentries = grid_size[IB_Z] * grid_size[IB_Y] * grid_size[IB_X];
+    sheet_size = grid_size[IB_Y] * grid_size[IB_X];
+    row_size = grid_size[IB_X];
+
+    // find the segments that belong to one z slice
+    
 }

@@ -9,7 +9,7 @@ import time
 import os
 import pandas as pd
 
-from bio_constrained_graphs.utilities import dataIO
+from biologicalgraphs.utilities import dataIO
 
 
 cdef extern from 'cpp-seg2seg.h':

@@ -2,7 +2,7 @@ import struct
 import numpy as np
 
 
-from bio_constrained_graphs.utilities.constants import *
+from biologicalgraphs.utilities.constants import *
 
 
 

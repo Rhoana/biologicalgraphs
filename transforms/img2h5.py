@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-from bio_constrained_graphs.utilities import dataIO
+from biologicalgraphs.utilities import dataIO
 
 
 

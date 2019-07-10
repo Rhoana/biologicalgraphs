@@ -7,13 +7,14 @@ import numpy as np
 
 
 
-from bio_constrained_graphs.utilities import dataIO
+from biologicalgraphs.utilities import dataIO
 
 
 
 cdef extern from 'cpp-distance.h':
     float *CppTwoDimensionalDistanceTransform(long *data, long grid_size[3])
     void CppDilateGoldData(long *data, long grid_size[3], float distance)
+
 
 
 # get the two dimensional distance transform

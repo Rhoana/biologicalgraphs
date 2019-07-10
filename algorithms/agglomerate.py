@@ -1,6 +1,6 @@
-from bio_constrained_graphs.transforms import seg2seg, seg2gold
-from bio_constrained_graphs.data_structures import UnionFind
-from bio_constrained_graphs.utilities import dataIO
+from biologicalgraphs.transforms import seg2seg, seg2gold
+from biologicalgraphs.data_structures import UnionFind
+from biologicalgraphs.utilities import dataIO
 import numpy as np
 import os
 import struct

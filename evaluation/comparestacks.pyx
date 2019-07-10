@@ -4,8 +4,8 @@ import numpy as np
 import ctypes
 import scipy.sparse as sparse
     
-from bio_constrained_graphs.utilities import dataIO
-from bio_constrained_graphs.transforms import distance, seg2seg
+from biologicalgraphs.utilities import dataIO
+from biologicalgraphs.transforms import distance, seg2seg
 
 
 

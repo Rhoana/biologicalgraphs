@@ -6,7 +6,7 @@ import struct
 import numpy as np
 import ctypes
 
-from bio_constrained_graphs.utilities import dataIO
+from biologicalgraphs.utilities import dataIO
 
 
 

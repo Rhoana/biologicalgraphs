@@ -6,10 +6,10 @@ import time
 
 from keras.models import model_from_json
 
-from bio_constrained_graphs.utilities import dataIO
-from bio_constrained_graphs.utilities.constants import *
-from bio_constrained_graphs.cnns.biological.util import AugmentFeature
-from bio_constrained_graphs.evaluation.classification import Prob2Pred, PrecisionAndRecall
+from biologicalgraphs.utilities import dataIO
+from biologicalgraphs.utilities.constants import *
+from biologicalgraphs.cnns.biological.util import AugmentFeature
+from biologicalgraphs.evaluation.classification import Prob2Pred, PrecisionAndRecall
 
 
 

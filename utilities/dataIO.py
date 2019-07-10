@@ -1,25 +1,19 @@
-import os
 import h5py
-import imageio
-import tifffile
 import struct
 
+
 import numpy as np
-from PIL import Image
-
-from bio_constrained_graphs.data_structures import meta_data, skeleton_points
-from bio_constrained_graphs.utilities.constants import *
 
 
-def GetWorldBBox(prefix):
-    # return the bounding box for this segment
-    return meta_data.MetaData(prefix).WorldBBox()
+from biologicalgraphs.data_structures import meta_data, skeleton_points
+from biologicalgraphs.utilities.constants import *
 
 
 
 def GridSize(prefix):
     # return the size of this dataset
     return meta_data.MetaData(prefix).GridSize()
+
 
 
 def CroppingBox(prefix):
@@ -60,12 +54,6 @@ def ReadH5File(filename, dataset=None):
 
 
 
-def IsIsotropic(prefix):
-    resolution = Resolution(prefix)
-    return (resolution[IB_Z] == resolution[IB_Y]) and (resolution[IB_Z] == resolution[IB_X])
-
-
-
 def WriteH5File(data, filename, dataset, compression=True):
     with h5py.File(filename, 'w') as hf:
         # should cover all cases of affinities/images
@@ -86,13 +74,6 @@ def ReadAffinityData(prefix):
 
 
 
-def ReadSegmentationData(prefix):
-    filename, dataset = meta_data.MetaData(prefix).SegmentationFilename()
-
-    return ReadH5File(filename, dataset).astype(np.int64)
-
-
-
 def ReadGoldData(prefix):
     filename, dataset = meta_data.MetaData(prefix).GoldFilename()
 
@@ -104,6 +85,13 @@ def ReadImageData(prefix):
     filename, dataset = meta_data.MetaData(prefix).ImageFilename()
 
     return ReadH5File(filename, dataset)
+
+
+
+def ReadSegmentationData(prefix):
+    filename, dataset = meta_data.MetaData(prefix).SegmentationFilename()
+
+    return ReadH5File(filename, dataset).astype(np.int64)
 
 
 
@@ -144,60 +132,6 @@ def ReadSkeletons(prefix, skeleton_algorithm='thinning', downsample_resolution=(
             skeletons.append(skeleton_points.Skeleton(label, joints, endpoints, vectors, resolution, grid_size))
 
     return skeletons
-
-
-
-def ReadImage(filename):
-    return np.array(Image.open(filename))
-
-
-
-def WriteImage(image, filename):
-    imageio.imwrite(filename, image)
-
-
-
-def H52Tiff(stack, output_prefix):
-    zres, _, _ = stack.shape
-
-    for iz in range(zres):
-        image = stack[iz,:,:]
-        tifffile.imsave('{}-{:05d}.tif'.format(output_prefix, iz), image)
-
-
-
-def H52PNG(stack, output_prefix):
-    zres, _, _ = stack.shape
-
-    for iz in range(zres):
-        image = stack[iz,:,:]
-        im = Image.fromarray(image)
-        im.save('{}-{:05d}.png'.format(output_prefix, iz))
-
-
-
-def PNG2H5(directory, filename, dataset, dtype=np.int32):
-    # get all of the png files
-    png_files = sorted(os.listdir(directory))
-
-    # what is the size of the output file
-    zres = len(png_files)
-    for iz, png_filename in enumerate(png_files):
-        im = np.array(Image.open('{}/{}'.format(directory, png_filename)))
-
-        # create the output if this is the first slice
-        if not iz:
-            if len(im.shape) == 2: yres, xres = im.shape
-            else: yres, xres, _ = im.shape
-
-        h5output = np.zeros((zres, yres, xres), dtype=dtype)
-
-        # add this element
-        if len(im.shape) == 3 and dtype == np.int32: h5output[iz,:,:] = 65536 * im[:,:,0] + 256 * im[:,:,1] + im[:,:,2]
-        elif len(im.shape) == 3 and dtype == np.uint8: h5output[iz,:,:] = ((im[:,:,0].astype(np.uint16) + im[:,:,1].astype(np.uint16) + im[:,:,2].astype(np.uint16)) / 3).astype(np.uint8)
-        else: h5output[iz,:,:] = im[:,:]
-
-        WriteH5File(h5output, filename, dataset)
 
 
 

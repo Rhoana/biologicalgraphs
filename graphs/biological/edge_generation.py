@@ -6,9 +6,9 @@ import struct
 import numpy as np
 from numba import jit
 
-from bio_constrained_graphs.utilities import dataIO
-from bio_constrained_graphs.utilities.constants import *
-from bio_constrained_graphs.graphs.biological.util import CreateDirectoryStructure, ExtractExample, GenerateExamplesArray, ScaleFeature
+from biologicalgraphs.utilities import dataIO
+from biologicalgraphs.utilities.constants import *
+from biologicalgraphs.graphs.biological.util import CreateDirectoryStructure, ExtractExample, GenerateExamplesArray, ScaleFeature
 
 
 

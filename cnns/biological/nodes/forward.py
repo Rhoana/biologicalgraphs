@@ -6,13 +6,13 @@ import time
 
 from keras.models import model_from_json
 
-from bio_constrained_graphs.utilities import dataIO
-from bio_constrained_graphs.utilities.constants import *
-from bio_constrained_graphs.transforms import seg2seg, seg2gold
-from bio_constrained_graphs.cnns.biological.util import AugmentFeature
-from bio_constrained_graphs.evaluation.classification import Prob2Pred, PrecisionAndRecall
-from bio_constrained_graphs.graphs.biological.util import FindSmallSegments
-from bio_constrained_graphs.evaluation import comparestacks
+from biologicalgraphs.utilities import dataIO
+from biologicalgraphs.utilities.constants import *
+from biologicalgraphs.transforms import seg2seg, seg2gold
+from biologicalgraphs.cnns.biological.util import AugmentFeature
+from biologicalgraphs.evaluation.classification import Prob2Pred, PrecisionAndRecall
+from biologicalgraphs.graphs.biological.util import FindSmallSegments
+from biologicalgraphs.evaluation import comparestacks
 
 
 
