@@ -95,10 +95,13 @@ def ReadSegmentationData(prefix):
 
 
 
-def ReadSkeletons(prefix, skeleton_algorithm='thinning', downsample_resolution=(80, 80, 80), params='00'):
+def ReadSkeletons(prefix):
+    # parameters for low resolution segmentations
+    downsample_resolution = (80, 80, 80)
+
     # read in all of the skeleton points
-    skeleton_filename = 'skeletons/{}/{}-{:03d}x{:03d}x{:03d}-upsample-{}-skeleton.pts'.format(prefix, skeleton_algorithm, downsample_resolution[IB_X], downsample_resolution[IB_Y], downsample_resolution[IB_Z], params)
-    endpoint_filename = 'skeletons/{}/{}-{:03d}x{:03d}x{:03d}-endpoint-vectors.vec'.format(prefix, skeleton_algorithm, downsample_resolution[IB_X], downsample_resolution[IB_Y], downsample_resolution[IB_Z], params)
+    skeleton_filename = 'skeletons/{}/thinning-{:03d}x{:03d}x{:03d}-upsample-skeleton.pts'.format(prefix, downsample_resolution[IB_X], downsample_resolution[IB_Y], downsample_resolution[IB_Z])
+    endpoint_filename = 'skeletons/{}/thinning-{:03d}x{:03d}x{:03d}-endpoint-vectors.vec'.format(prefix, downsample_resolution[IB_X], downsample_resolution[IB_Y], downsample_resolution[IB_Z])
 
     # read the joints file and the vector file
     with open(skeleton_filename, 'rb') as sfd, open(endpoint_filename, 'rb') as efd:
