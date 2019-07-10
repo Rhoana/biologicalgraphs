@@ -113,3 +113,6 @@ transforms/distance.cpp
 skeletonization/generate_skeletons.cpp
 graphs/biological/node_generation.cpp
 .vscode
+
+# remove temp files
+*~
