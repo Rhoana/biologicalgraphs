@@ -1,10 +1,13 @@
 import os
-import numpy as np
 import sys
 import struct
-import time
+import numpy as np
+
+
 
 from keras.models import model_from_json
+
+
 
 from biologicalgraphs.utilities import dataIO
 from biologicalgraphs.utilities.constants import *
@@ -17,12 +20,7 @@ from biologicalgraphs.evaluation.classification import Prob2Pred, PrecisionAndRe
 def EdgeGenerator(examples, width):
     index = 0
 
-    start_time = time.time()
-
     while True:
-        if index and not (index % 1000):
-            print '{}/{} in {:0.2f} seconds'.format(index, examples.shape[0], time.time() - start_time)
-            start_time = time.time()
         # prevent overflow of the queue (these examples will not go through)
         if index == examples.shape[0]: index = 0
 
@@ -129,7 +127,12 @@ def CollectEdges(prefix, width, radius, subset):
 
 
 
-def Forward(prefix, model_prefix, width, radius, subset, evaluate=False):
+def Forward(prefix, model_prefix, subset):
+    # parameters for the network
+    radius = 600
+    # there are 3 input channels
+    width = (3, 18, 52, 52)
+
     # read in the trained model
     model = model_from_json(open('{}.json'.format(model_prefix), 'r').read())
     model.load_weights('{}-best-loss.h5'.format(model_prefix))
