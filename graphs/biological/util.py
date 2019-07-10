@@ -76,23 +76,27 @@ def ExtractExample(segment, label_one, label_two):
 
 
 # simple function to create directory structure for all of the features
-def CreateDirectoryStructure(widths, network_radius, subsets, feature):
-    for width in widths:
-        # make sure directory structure exists
-        directory = 'features/biological/{}-{}nm-{}x{}x{}'.format(feature, network_radius, width[IB_Z], width[IB_Y], width[IB_X])
-        if not os.path.exists(directory):
-            os.mkdir(directory)
+def CreateDirectoryStructure(width, network_radius, subsets, feature):
+    if not os.path.exists('features'):
+        os.mkdir('features')
+    if not os.path.exists('features/biological'):
+        os.mkdir('features/biological')
 
-        # add all subsets
-        for subset in subsets:
-            sub_directory = '{}/{}'.format(directory, subset)
-            if not os.path.exists(sub_directory):
-                os.mkdir(sub_directory)
-            # there are three possible labels per subset
-            labelings = ['positives', 'negatives', 'unknowns']
-            for labeling in labelings:
-                if not os.path.exists('{}/{}'.format(sub_directory, labeling)):
-                    os.mkdir('{}/{}'.format(sub_directory, labeling))
+    # make sure directory structure exists
+    directory = 'features/biological/{}-{}nm-{}x{}x{}'.format(feature, network_radius, width[IB_Z], width[IB_Y], width[IB_X])
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+
+    # add all subsets
+    for subset in subsets:
+        sub_directory = '{}/{}'.format(directory, subset)
+        if not os.path.exists(sub_directory):
+            os.mkdir(sub_directory)
+        # there are three possible labels per subset
+        labelings = ['positives', 'negatives', 'unknowns']
+        for labeling in labelings:
+            if not os.path.exists('{}/{}'.format(sub_directory, labeling)):
+                os.mkdir('{}/{}'.format(sub_directory, labeling))
 
 
 

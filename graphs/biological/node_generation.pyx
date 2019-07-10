@@ -10,6 +10,7 @@ import sys
 
 from biologicalgraphs.graphs.biological.util import CreateDirectoryStructure, ExtractExample, FindSmallSegments, GenerateExamplesArray, ScaleFeature
 from biologicalgraphs.graphs.biological import edge_generation
+from biologicalgraphs.transforms import seg2seg
 from biologicalgraphs.utilities import dataIO
 from biologicalgraphs.utilities.constants import *
 
@@ -139,11 +140,31 @@ def BaselineNodes(prefix, segmentation, seg2gold_mapping, affinities, threshold_
 
 def RemoveSingletons(prefix, segmentation):
     # intersection over union threshold
-    threshold = 0.30
+    threshold = 0.70
 
+    max_label = np.amax(segmentation) + 1
 
+    # convert numpy arrays to c++ to find singletons to remove
+    cdef np.ndarray[long, ndim=3, mode='c'] cpp_segmentation = np.ascontiguousarray(segmentation, dtype=ctypes.c_int64)
+    cdef np.ndarray[long, ndim=1, mode='c'] cpp_grid_size = np.ascontiguousarray(segmentation.shape, dtype=ctypes.c_int64)
 
-        
+    cdef long *cpp_mapped_singletons = CppRemoveSingletons(&(cpp_segmentation[0,0,0]), &(cpp_grid_size[0]), threshold)
+    cdef long[:] tmp_mapped_singletons = <long[:max_label]> cpp_mapped_singletons
+    mapped_singletons = np.asarray(tmp_mapped_singletons)
+
+    seg2seg.MapLabels(segmentation, mapped_singletons)
+
+    mapping, _ = seg2seg.ReduceLabels(segmentation)
+    seg2seg.MapLabels(segmentation, mapping)
+
+    # write the new segmentation data without singletons
+    segmentation_filename = 'segmentations/{}-segmentation-wos.h5'.format(prefix)
+    dataIO.WriteH5File(segmentation, segmentation_filename, 'main')
+    
+    # create a new meta file
+    dataIO.SpawnMetaFile(prefix, segmentation_filename, 'main')
+
+    
 
 def GenerateNodes(prefix, segmentation, subset, seg2gold_mapping=None):
     # width and radius of the neural network
@@ -159,7 +180,7 @@ def GenerateNodes(prefix, segmentation, subset, seg2gold_mapping=None):
 
     # create the directory structure to save the features in
     # forward is needed for training and validation data that is cropped
-    CreateDirectoryStructure(widths, network_radius, ['training', 'validation', 'testing', 'forward'], 'nodes')
+    CreateDirectoryStructure(width, network_radius, ['training', 'validation', 'testing', 'forward'], 'nodes')
 
     # get the complete adjacency graph shows all neighboring edges
     adjacency_graph = edge_generation.ExtractAdjacencyMatrix(segmentation)
@@ -199,10 +220,10 @@ def GenerateNodes(prefix, segmentation, subset, seg2gold_mapping=None):
             if (xpoint < cropped_xmin or cropped_xmax <= xpoint): forward = True
 
             # see if these two segments belong to the same node
-            # if no mapping given they are unknowns
-            if seg2gold_mapping == None:
+            if not seg2gold_mapping is None:
                 gold_one = seg2gold_mapping[label_one]
                 gold_two = seg2gold_mapping[label_two]
+            # if no mapping given they are unknowns
             else:
                 gold_one = -1
                 gold_two = -1
