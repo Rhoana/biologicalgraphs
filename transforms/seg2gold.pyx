@@ -37,9 +37,9 @@ def Mapping(prefix, segmentation=None, gold=None, match_threshold=0.80, nonzero_
     if os.path.isfile(seg2gold_filename): 
         return CachedSeg2GoldMapping(prefix)
 
-    if segmentation == None:
+    if segmentation is None:
         segmentation = dataIO.ReadSegmentationData(prefix)
-    if gold == None:
+    if gold is None:
         gold = dataIO.ReadGoldData(prefix)
 
     # everything needs to be long ints to work with c++

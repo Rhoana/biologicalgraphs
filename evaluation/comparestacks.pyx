@@ -4,6 +4,8 @@ import numpy as np
 import ctypes
 import scipy.sparse as sparse
     
+
+
 from biologicalgraphs.utilities import dataIO
 from biologicalgraphs.transforms import distance, seg2seg
 
@@ -11,6 +13,8 @@ from biologicalgraphs.transforms import distance, seg2seg
 
 cdef extern from 'cpp-comparestacks.h':
     double *CppEvaluate(long *segmentation, long *gold, long grid_size[3], long *ground_truth_masks, long nmasks)
+
+
 
 def adapted_rand(prefix, seg, gt, all_stats=False, dilate_ground_truth=2, filtersize=0):
     """Compute Adapted Rand error as defined by the SNEMI3D contest [1]
@@ -87,16 +91,11 @@ def adapted_rand(prefix, seg, gt, all_stats=False, dilate_ground_truth=2, filter
 
 # with the cache we can now safely run the function consecutive times in a row since we will just read the new ground truth
 def VariationOfInformation(prefix, segmentation, gold, dilate_ground_truth=2, input_ground_truth_masks=[0], filtersize=0):
-    # make sure not to dilate the ground truth for Fib-25 (already taken care of)
-    if 'Fib25' in prefix:
-        dilate_ground_truth = 0
-
     # need to copy the data since there are mutable opeartions below
     ground_truth_masks = np.copy(input_ground_truth_masks).astype(np.int64)
     assert (segmentation.dtype == np.int64)
     assert (gold.dtype == np.int64)
     assert (segmentation.shape == gold.shape)
-
 
     # remove all small connected components
     if filtersize > 0:

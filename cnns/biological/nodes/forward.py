@@ -275,7 +275,7 @@ def Forward(prefix, model_prefix, segmentation, subset, seg2gold_mapping=None, e
         new_prefix = segmentation_filename.split('/')[-1].split('.')[0]
 
         # run the evaluation framework
-        rand_error, vi = comparestacks.VariationOfInformation(segmentation, gold)
+        rand_error, vi = comparestacks.VariationOfInformation(new_prefix, segmentation, gold)
 
         # write the output file
         with open('results/{}-reduced-{}.txt'.format(prefix, model_name), 'w') as fd:

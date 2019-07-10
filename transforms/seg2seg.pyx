@@ -4,12 +4,12 @@ cimport numpy as np
 import ctypes
 from libcpp cimport bool
 import numpy as np
-import scipy.ndimage
 import time
 import os
-import pandas as pd
+
 
 from biologicalgraphs.utilities import dataIO
+
 
 
 cdef extern from 'cpp-seg2seg.h':
@@ -44,7 +44,7 @@ def RemoveSmallConnectedComponents(segmentation, threshold=64):
     if not segmentation.dtype == np.int64: segmentation = segmentation.astype(np.int64)
 
     nentries = segmentation.size
-    cdef np.ndarray[long, ndim=3, mode='c'] cpp_segmentation= np.ascontiguousarray(segmentation, dtype=ctypes.c_int64)
+    cdef np.ndarray[long, ndim=3, mode='c'] cpp_segmentation = np.ascontiguousarray(segmentation, dtype=ctypes.c_int64)
     
     # call the c++ function
     CppRemoveSmallConnectedComponents(&(cpp_segmentation[0,0,0]), threshold, nentries)
@@ -54,7 +54,7 @@ def RemoveSmallConnectedComponents(segmentation, threshold=64):
 # reduce the labeling
 def ReduceLabels(segmentation):
     # get the unique labels
-    unique = sorted(pd.unique(segmentation.flatten()))
+    unique = sorted(np.unique(segmentation.flatten()))
 
     # get the maximum label for the segment
     maximum_label = np.amax(segmentation) + 1
