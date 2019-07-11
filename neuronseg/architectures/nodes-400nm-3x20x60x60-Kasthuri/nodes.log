@@ -1,0 +1,39 @@
+conv3d_1 (None, 3, 20, 60, 60) -> (None, 16, 18, 58, 58)
+leaky_re_lu_1 (None, 16, 18, 58, 58) -> (None, 16, 18, 58, 58)
+conv3d_2 (None, 16, 18, 58, 58) -> (None, 16, 16, 56, 56)
+leaky_re_lu_2 (None, 16, 16, 56, 56) -> (None, 16, 16, 56, 56)
+max_pooling3d_1 (None, 16, 16, 56, 56) -> (None, 16, 16, 28, 28)
+dropout_1 (None, 16, 16, 28, 28) -> (None, 16, 16, 28, 28)
+conv3d_3 (None, 16, 16, 28, 28) -> (None, 32, 14, 26, 26)
+leaky_re_lu_3 (None, 32, 14, 26, 26) -> (None, 32, 14, 26, 26)
+conv3d_4 (None, 32, 14, 26, 26) -> (None, 32, 12, 24, 24)
+leaky_re_lu_4 (None, 32, 12, 24, 24) -> (None, 32, 12, 24, 24)
+max_pooling3d_2 (None, 32, 12, 24, 24) -> (None, 32, 12, 12, 12)
+dropout_2 (None, 32, 12, 12, 12) -> (None, 32, 12, 12, 12)
+conv3d_5 (None, 32, 12, 12, 12) -> (None, 64, 10, 10, 10)
+leaky_re_lu_5 (None, 64, 10, 10, 10) -> (None, 64, 10, 10, 10)
+conv3d_6 (None, 64, 10, 10, 10) -> (None, 64, 8, 8, 8)
+leaky_re_lu_6 (None, 64, 8, 8, 8) -> (None, 64, 8, 8, 8)
+max_pooling3d_3 (None, 64, 8, 8, 8) -> (None, 64, 4, 4, 4)
+dropout_3 (None, 64, 4, 4, 4) -> (None, 64, 4, 4, 4)
+flatten_1 (None, 64, 4, 4, 4) -> (None, 4096)
+dense_1 (None, 4096) -> (None, 512)
+dropout_4 (None, 512) -> (None, 512)
+leaky_re_lu_7 (None, 512) -> (None, 512)
+dense_2 (None, 512) -> (None, 1)
+dropout_5 (None, 1) -> (None, 1)
+activation_1 (None, 1) -> (None, 1)
+
+optimizer: nesterov
+decay_rate: 5e-08
+starting_epoch: 0
+activation: LeakyReLU
+batch_size: 40
+filter_sizes: [16, 32, 64]
+depth: 3
+initial_learning_rate: 5e-05
+weights: (1, 1)
+loss_function: mean_squared_error
+betas: [0.99, 0.999]
+normalization: False
+examples_per_epoch: 20000
