@@ -119,6 +119,7 @@ def CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edg
         print 'Variation of Information Merge: {}'.format(vi[0])
         print 'Variation of Information Split: {}'.format(vi[1])
 
+        if not os.path.exists('results'): os.mkdir('results')
         with open('results/{}-{}.txt'.format(prefix, algorithm), 'w') as fd:
             fd.write('Rand Error Full: {}\n'.format(rand_error[0] + rand_error[1]))
             fd.write('Rand Error Merge: {}\n'.format(rand_error[0]))
