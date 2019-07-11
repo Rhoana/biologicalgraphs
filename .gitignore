@@ -117,7 +117,13 @@ graphs/biological/node_generation.cpp
 # remove temp files
 *~
 
-# do not include extra directories in neuronseg
-cache/*
-features/*
-skeletons/*
+# do not include extra directories and files in neuronseg
+neuronseg/cache/*
+neuronseg/features/*
+neuronseg/skeletons/*
+neuronseg/results/*
+neuronseg/segmentations/Kasthuri-test-segmentation-wos.h5
+neuronseg/segmentations/Kasthuri-test-segmentation-wos-reduced-nodes-400nm-3x20x60x60-Kasthuri.h5
+neuronseg/segmentations/Kasthuri-test-segmentation-wos-reduced-nodes-400nm-3x20x60x60-Kasthuri-lifted-multicut-95.h5
+*inference.txt
+*probabilities

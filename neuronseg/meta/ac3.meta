@@ -1,8 +1,0 @@
-# resolution in nm
-3x3x30
-# gold filename
-golds/ac3-test-gold.h5 main
-# segmentation filename
-segmentations/ac3-test-waterz.h5 main
-# grid size
-1024x1024x100
