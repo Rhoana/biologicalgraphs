@@ -278,6 +278,7 @@ def Forward(prefix, model_prefix, segmentation, subset, seg2gold_mapping=None, e
         rand_error, vi = comparestacks.VariationOfInformation(new_prefix, segmentation, gold)
 
         # write the output file
+        if not os.path.exists('results'): os.mkdir('results')
         with open('results/{}-reduced-{}.txt'.format(prefix, model_name), 'w') as fd:
             fd.write('Rand Error Full: {}\n'.format(rand_error[0] + rand_error[1]))
             fd.write('Rand Error Merge: {}\n'.format(rand_error[0]))

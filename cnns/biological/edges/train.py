@@ -225,7 +225,7 @@ def EdgeGenerator(parameters, width, radius, subset):
 
 
 
-def Train(parameters, model_prefix, width, radius, finetune=False):
+def Train(parameters, model_prefix, width, radius):
     # make sure the model prefix does not contain nodes (to prevent overwriting files)
     assert (not 'nodes' in model_prefix)
 
@@ -235,20 +235,7 @@ def Train(parameters, model_prefix, width, radius, finetune=False):
     examples_per_epoch = parameters['examples_per_epoch']
     weights = parameters['weights']
 
-    # the initial learning rate is less if finetuning
-    if finetune:
-        parameters['initial_learning_rate'] = 0.5 * parameters['initial_learning_rate']
-
     model = EdgeNetwork(parameters, width)
-
-    # use the weights from the node network if we are finetuning the data
-    if finetune:
-        node_network = model_prefix.replace('edges', 'nodes').replace('-finetune', '')
-        best_loss_filename = '{}-best-loss.h5'.format(node_network)
-        
-        # load the weights for this network
-        model.load_weights('{}-best-loss.h5'.format(node_network))
-
 
     # make sure the folder for the model prefix exists
     root_location = model_prefix.rfind('/')
