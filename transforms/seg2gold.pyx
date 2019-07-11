@@ -55,10 +55,10 @@ def Mapping(prefix, segmentation=None, gold=None, match_threshold=0.80, nonzero_
     cdef long[:] tmp_mapping = <long[:max_segmentation]> mapping;
     seg2gold_mapping = np.asarray(tmp_mapping)
 
-    if not os.path.exists('cache'):
-        os.mkdir('cache')
+    
 
     # create cache
+    if not os.path.exists('cache'): os.mkdir('cache')
     with open(seg2gold_filename, 'wb') as fd:
         max_label = seg2gold_mapping.size
         fd.write(struct.pack('q', max_label))

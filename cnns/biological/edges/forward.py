@@ -39,13 +39,22 @@ def CollectExamples(prefix, width, radius, subset):
     parent_directory = 'features/biological/edges-{}nm-{}x{}x{}'.format(radius, width[IB_Z+1], width[IB_Y+1], width[IB_X+1])
     
     positive_filename = '{}/{}/positives/{}-examples.h5'.format(parent_directory, subset, prefix)
-    positive_examples = dataIO.ReadH5File(positive_filename, 'main')
+    if os.path.exists(positive_filename):
+        positive_examples = dataIO.ReadH5File(positive_filename, 'main')
+    else:
+        positive_examples = np.zeros((0, width[IB_Z + 1], width[IB_Y + 1], width[IB_X + 1]))
 
     negative_filename = '{}/{}/negatives/{}-examples.h5'.format(parent_directory, subset, prefix)
-    negative_examples = dataIO.ReadH5File(negative_filename, 'main')
+    if os.path.exists(negative_filename):
+        negative_examples = dataIO.ReadH5File(negative_filename, 'main')
+    else:
+        negative_examples = np.zeros((0, width[IB_Z + 1], width[IB_Y + 1], width[IB_X + 1]))
     
     unknowns_filename = '{}/{}/unknowns/{}-examples.h5'.format(parent_directory, subset, prefix)
-    unknowns_example = dataIO.ReadH5File(unknowns_filename, 'main')
+    if os.path.exists(unknowns_filename):
+        unknowns_example = dataIO.ReadH5File(unknowns_filename, 'main')
+    else:
+        unknowns_example = np.zeros((0, width[IB_Z + 1], width[IB_Y + 1], width[IB_X + 1]))
 
     # concatenate all of the examples together
     examples = np.concatenate((positive_examples, negative_examples, unknowns_example), axis=0)
@@ -77,25 +86,28 @@ def CollectEdges(prefix, width, radius, subset):
     examples = []
 
     positive_filename = '{}/{}/positives/{}.examples'.format(parent_directory, subset, prefix)
-    with open(positive_filename, 'rb') as fd:
-        nexamples, = struct.unpack('q', fd.read(8))
-        for _ in range(nexamples):
-            _, _, _, label_one, label_two, _ = struct.unpack('qqqqqq', fd.read(48))
-            examples.append((label_one, label_two))
+    if os.path.exists(positive_filename):
+        with open(positive_filename, 'rb') as fd:
+            nexamples, = struct.unpack('q', fd.read(8))
+            for _ in range(nexamples):
+                _, _, _, label_one, label_two, _ = struct.unpack('qqqqqq', fd.read(48))
+                examples.append((label_one, label_two))
 
     negative_filename = '{}/{}/negatives/{}.examples'.format(parent_directory, subset, prefix)
-    with open(negative_filename, 'rb') as fd:
-        nexamples, = struct.unpack('q', fd.read(8))
-        for _ in range(nexamples):
-            _, _, _, label_one, label_two, _ = struct.unpack('qqqqqq', fd.read(48))
-            examples.append((label_one, label_two))
+    if os.path.exists(negative_filename):
+        with open(negative_filename, 'rb') as fd:
+            nexamples, = struct.unpack('q', fd.read(8))
+            for _ in range(nexamples):
+                _, _, _, label_one, label_two, _ = struct.unpack('qqqqqq', fd.read(48))
+                examples.append((label_one, label_two))
 
     unknowns_filename = '{}/{}/unknowns/{}.examples'.format(parent_directory, subset, prefix)
-    with open(unknowns_filename, 'rb') as fd:
-        nexamples, = struct.unpack('q', fd.read(8))
-        for _ in range(nexamples):
-            _, _, _, label_one, label_two, _ = struct.unpack('qqqqqq', fd.read(48))
-            examples.append((label_one, label_two))
+    if os.path.exists(unknowns_filename):
+        with open(unknowns_filename, 'rb') as fd:
+            nexamples, = struct.unpack('q', fd.read(8))
+            for _ in range(nexamples):
+                _, _, _, label_one, label_two, _ = struct.unpack('qqqqqq', fd.read(48))
+                examples.append((label_one, label_two))
 
 
     # add in information needed for forward inference [regions masked out for training and validation]
@@ -156,8 +168,9 @@ def Forward(prefix, model_prefix, subset):
     predictions = Prob2Pred(np.squeeze(probabilities[:npositives+nnegatives]))
 
     # print the confusion matrix
-    output_filename = '{}-{}-inference.txt'.format(model_prefix, prefix)
-    PrecisionAndRecall(ground_truth, predictions, output_filename)
+    if not seg2gold_mapping is None:
+        output_filename = '{}-{}-inference.txt'.format(model_prefix, prefix)
+        PrecisionAndRecall(ground_truth, predictions, output_filename)
 
     # save the probabilities for each edge
     output_filename = '{}-{}.probabilities'.format(model_prefix, prefix)
