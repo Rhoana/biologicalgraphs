@@ -1,0 +1,8 @@
+# resolution in nm
+6x6x30
+# gold filename
+golds/Kasthuri-test-gold.h5 main
+# segmentation filename
+segmentations/Kasthuri-test-segmentation.h5 main
+# grid size
+1336x1809x338
