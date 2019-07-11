@@ -43,12 +43,6 @@ def PrintResults(prefix, vertex_ones, vertex_twos, edge_weights, maintained_edge
     print 'CNN Results:'
     PrecisionAndRecall(np.array(labels), np.array(cnn_results))
 
-    # make sure that the options are either multicut or lifted-multicut
-    if 'lifted-multicut' in algorithm: output_folder = 'lifted-multicut'
-    elif 'multicut' in algorithm: output_folder = 'multicut'
-    elif 'graph-baseline' in algorithm: output_folder = 'graph-baselines'
-    else: assert (False)
-
     print 'Multicut Results'
     PrecisionAndRecall(np.array(labels), np.array(multicut_results))
 
@@ -117,8 +111,6 @@ def CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edg
 
         rand_error, vi = comparestacks.VariationOfInformation(new_prefix, segmentation, gold)
 
-        #adapted_rand = comparestacks.adapted_rand(prefix, segmentation, gold)
-
         print 'Rand Error Full: {}'.format(rand_error[0] + rand_error[1])
         print 'Rand Error Merge: {}'.format(rand_error[0])
         print 'Rand Error Split: {}'.format(rand_error[1])
@@ -127,15 +119,7 @@ def CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edg
         print 'Variation of Information Merge: {}'.format(vi[0])
         print 'Variation of Information Split: {}'.format(vi[1])
 
-        #print 'Adapted Rand: {}'.format(adapted_rand)
-
-        # make sure that the options are either multicut or lifted-multicut
-        if 'lifted-multicut' in algorithm: output_folder = 'lifted-multicut'
-        elif 'multicut' in algorithm: output_folder = 'multicut'
-        elif 'graph-baseline' in algorithm: output_folder = 'graph-baselines'
-        else: assert (False)
-
-        with open('results/{}-{}.txt'.format(output_folder, algorithm, prefix), 'w') as fd:
+        with open('results/{}-{}.txt'.format(prefix, algorithm), 'w') as fd:
             fd.write('Rand Error Full: {}\n'.format(rand_error[0] + rand_error[1]))
             fd.write('Rand Error Merge: {}\n'.format(rand_error[0]))
             fd.write('Rand Error Split: {}\n'.format(rand_error[1]))
@@ -143,5 +127,3 @@ def CollapseGraph(prefix, segmentation, vertex_ones, vertex_twos, maintained_edg
             fd.write('Variation of Information Full: {}\n'.format(vi[0] + vi[1]))
             fd.write('Variation of Information Merge: {}\n'.format(vi[0]))
             fd.write('Variation of Information Split: {}\n'.format(vi[1]))
-
-            #fd.write('Adapted Rand: {}\n'.format(adapted_rand))
