@@ -168,7 +168,7 @@ def Forward(prefix, model_prefix, subset):
     predictions = Prob2Pred(np.squeeze(probabilities[:npositives+nnegatives]))
 
     # print the confusion matrix
-    if not seg2gold_mapping is None:
+    if len(ground_truth):
         output_filename = '{}-{}-inference.txt'.format(model_prefix, prefix)
         PrecisionAndRecall(ground_truth, predictions, output_filename)
 
