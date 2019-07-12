@@ -4,8 +4,8 @@ import struct
 import scipy.spatial, scipy.optimize
 import numpy as np
 
-from ibex.utilities import dataIO
-from ibex.utilities.constants import *
+from biologicalgraphs.utilities import dataIO
+from biologicalgraphs.utilities.constants import *
 
 
 
@@ -79,6 +79,7 @@ def FindEndpointMatches(prefix, algorithm, params, resolution, ground_truth):
     # go through every label
     max_label = len(ground_truth)
 
+    if not os.path.isdir('benchmarks/skeleton/matchings'): os.mkdir('benchmarks/skeleton/matchings')
     output_filename = 'benchmarks/skeleton/matchings/{}-{}-{:03d}x{:03d}x{:03d}-{}-matching-pairs.pts'.format(prefix, algorithm, resolution[IB_X], resolution[IB_Y], resolution[IB_Z], params)
 
     true_positives = 0
