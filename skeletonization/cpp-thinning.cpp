@@ -542,7 +542,7 @@ void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], con
 
     // read the topologically downsampled file
     char input_filename[4096];
-    sprintf(input_filename, "skeletons/%s/downsample-%03ldx%03ldx%03ld.bytes", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
+    sprintf(input_filename, "benchmarks/skeleton/%s-downsample-%03ldx%03ldx%03ld.bytes", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
 
     // open the input file
     FILE *rfp = fopen(input_filename, "rb");
@@ -555,7 +555,7 @@ void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], con
 
     // open the output filename
     char output_filename[4096];
-    sprintf(output_filename, "skeletons/%s/thinning-%03ldx%03ldx%03ld-downsample-skeleton.pts", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
+    sprintf(output_filename, "benchmarks/skeleton/%s-thinning-%03ldx%03ldx%03ld-downsample-skeleton.pts", prefix, skeleton_resolution[IB_X], skeleton_resolution[IB_Y], skeleton_resolution[IB_Z]);
 
     FILE *wfp = fopen(output_filename, "wb");
     if (!wfp) { fprintf(stderr, "Failed to write to %s\n", output_filename); exit(-1); }
@@ -650,7 +650,7 @@ void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], con
     // close the I/O files
     fclose(rfp);
     fclose(wfp);
-        
+
     delete[] lut_simple;
     delete[] lut_isthmus;
 }

@@ -3,8 +3,8 @@
 
 // function calls across cpp files
 void CppTopologicalThinning(const char *prefix, long skeleton_resolution[3], const char *lookup_table_directory);
-void CppFindEndpointVectors(const char *prefix, long skeleton_resolution[3], float output_resolution[3]);
-void CppApplyUpsampleOperation(const char *prefix, long *input_segmentation, long skeleton_resolution[3], float output_resolution[3]);
+void CppTeaserSkeletonization(const char *prefix, long skeleton_resolution[3], double input_scale, long input_buffer);
+void CppApplyUpsampleOperation(const char *prefix, const char *params, long *input_segmentation, long skeleton_resolution[3], float output_resolution[3], const char *skeleton_algorithm, double astar_expansion);
 
 
 // universal variables and functions
