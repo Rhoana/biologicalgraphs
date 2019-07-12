@@ -1,4 +1,4 @@
-from ibex.skeletonization import benchmark
+from biologicalgraphs.skeletonization import benchmark
 
 prefix = 'Kasthuri-one'
 
