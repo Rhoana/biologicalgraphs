@@ -15,7 +15,7 @@ conda create -n biographs_env python=2.7
 conda install --file requirements.txt
 ````
 
-Change the variable `graph_software_dir` to be the parent directory where you installed the Andres graph repository.
+Change the variable `graph_software_dir` in `algorithms/setup.py` to be the parent directory where you installed the Andres graph repository.
 
 ```` 
 cd algorithms
