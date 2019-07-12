@@ -47,7 +47,7 @@ seg2gold_mapping = seg2gold.Mapping(prefix, segmentation, gold)
 
 
 # generate the skeleton by getting high->low resolution mappings
-## and running topological thinnings
+# and running topological thinnings
 seg2seg.DownsampleMapping(prefix, segmentation)
 generate_skeletons.TopologicalThinning(prefix, segmentation)
 generate_skeletons.FindEndpointVectors(prefix)
